@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#0b1020">
+  <title>Forma | File & Folder Organizer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <div class="brand"><div class="brand-mark"><span></span><span></span><span></span></div><div><b>forma</b><small>FILE ORGANIZER</small></div></div>
+      <div class="workspace-label">WORKSPACE</div>
+      <button class="nav-item active" data-view="files"><span class="nav-icon">▦</span> My files</button>
+      <button class="nav-item" data-view="tree"><span class="nav-icon">⌘</span> Tree structure</button>
+      <button class="nav-item" data-view="levels"><span class="nav-icon">☷</span> Level order</button>
+      <div class="sidebar-bottom">
+        <div class="storage-card"><div class="storage-icon">✳</div><b>Organized by design.</b><p>Your folders, mapped in a hierarchy.</p><div class="storage-line"><span></span></div><small>POWERED BY C++ · N-ARY TREE</small></div>
+        <div class="profile"><div class="avatar">S</div><div><b>My workspace</b><small>Local project</small></div><span class="online-dot"></span></div>
+      </div>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <div class="breadcrumb"><span>Workspace</span><i>/</i><b id="breadcrumb-current">My files</b></div>
+        <div class="top-actions"><span class="engine-status"><span class="status-dot"></span><span id="engine-label">Connecting C++ engine…</span></span><button class="icon-button" id="reset-btn" title="Reset workspace">↺</button><div class="avatar small-avatar">S</div></div>
+      </header>
+
+      <section class="content">
+        <div class="welcome-row">
+          <div><div class="eyebrow">YOUR DIGITAL WORKSPACE</div><h1 id="page-title">My files<span>.</span></h1><p class="subtitle" id="page-subtitle">A clear space for everything that matters.</p></div>
+          <div class="date-chip"><span class="date-dot"></span> TREE-BASED ORGANIZATION</div>
+        </div>
+
+        <section class="stats-grid">
+          <article class="stat-card"><div class="stat-top"><span>Total folders</span><span class="stat-symbol folder-symbol">▰</span></div><div class="stat-number" id="folder-count">0</div><div class="stat-foot">Inside your workspace</div></article>
+          <article class="stat-card"><div class="stat-top"><span>Total files</span><span class="stat-symbol file-symbol">▤</span></div><div class="stat-number" id="file-count">0</div><div class="stat-foot">Across all folders</div></article>
+          <article class="stat-card"><div class="stat-top"><span>Items organized</span><span class="stat-symbol items-symbol">✧</span></div><div class="stat-number" id="total-count">0</div><div class="stat-foot">Folders + files</div></article>
+        </section>
+
+        <section class="toolbar" id="toolbar">
+          <div class="section-heading"><div><h2 id="section-title">All items</h2><p id="section-caption">Browse and manage your folder structure</p></div></div>
+          <div class="toolbar-actions"><label class="search-box"><span>⌕</span><input id="search-input" type="search" placeholder="Search files and folders…"><kbd>/</kbd></label><button class="btn btn-secondary" id="add-file-btn">＋ Add file</button><button class="btn btn-primary" id="new-folder-btn">＋ New folder</button></div>
+        </section>
+
+        <section id="files-view" class="view-panel">
+          <div class="panel-head"><div class="panel-title"><span class="folder-glyph">▰</span><b>Workspace contents</b><span class="count-pill" id="visible-count">0 items</span></div><span class="view-label">NAME <span>TYPE</span></span></div>
+          <div id="file-list" class="file-list"></div>
+          <div id="empty-state" class="empty-state hidden"><div class="empty-art">▱</div><h3>This space is ready for something.</h3><p>Create a folder or add a file to begin organizing.</p><button class="btn btn-primary" id="empty-create">＋ Create your first folder</button></div>
+          <div id="search-results" class="search-results hidden"></div>
+        </section>
+
+        <section id="tree-view" class="view-panel hidden">
+          <div class="visual-card"><div class="visual-card-head"><div><h3>Hierarchical view</h3><p>Preorder depth-first traversal · C++</p></div><span class="algorithm-tag">DFS</span></div><div id="tree-output" class="tree-output"></div></div>
+        </section>
+
+        <section id="levels-view" class="view-panel hidden">
+          <div class="visual-card"><div class="visual-card-head"><div><h3>Level-by-level view</h3><p>Breadth-first traversal using a queue · C++</p></div><span class="algorithm-tag">BFS</span></div><div id="levels-output" class="levels-output"></div></div>
+        </section>
+        <footer><span>FORMA <i>•</i> FILE & FOLDER ORGANIZER</span><span>BUILT WITH C++ · N-ARY TREE</span></footer>
+      </section>
+    </main>
+  </div>
+
+  <div class="modal-backdrop hidden" id="modal-backdrop">
+    <div class="modal">
+      <button class="modal-close" id="modal-close">×</button><div class="modal-kicker" id="modal-kicker">NEW ITEM</div><h2 id="modal-title">Create a folder</h2><p id="modal-description">Choose where this item should live.</p>
+      <form id="item-form"><label id="parent-label">Parent folder<select id="parent-folder"></select></label><label id="name-label">Folder name<input id="item-name" type="text" placeholder="e.g. Semester 3" maxlength="80" required></label><div class="form-error" id="form-error"></div><div class="modal-actions"><button type="button" class="btn btn-secondary" id="cancel-modal">Cancel</button><button type="submit" class="btn btn-primary" id="submit-item">Create folder</button></div></form>
+    </div>
+  </div>
+  <div class="toast" id="toast"></div>
+  <script src="organizer.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
